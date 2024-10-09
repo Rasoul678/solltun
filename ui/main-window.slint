@@ -1,0 +1,31 @@
+import { VerticalBox, Button } from "std-widgets.slint";
+import { Title } from "title-window.slint";
+
+export component MainWindow inherits Rectangle {
+    in-out property <int> counter;
+    in-out property <string> app_name;
+    callback clicked;
+    width: 85%;
+    background: #111;
+    VerticalBox {
+        alignment: start;
+        Title {
+            app_name: root.app_name;
+        }
+
+        Text {
+            text: "Counter: \{root.counter}";
+            color: green;
+        }
+
+        Button {
+            width: 200px;
+            height: 50px;
+            text: "Increase value";
+            primary: true;
+            clicked => {
+                root.clicked();
+            }
+        }
+    }
+}

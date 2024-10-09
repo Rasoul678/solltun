@@ -1,0 +1,18 @@
+export component Title inherits Rectangle {
+    preferred-width: 100%;
+    preferred-height: 10px;
+    in property <string> app_name;
+
+    HorizontalLayout {
+        alignment: center;
+
+        Text {
+            text: "\{root.app_name}";
+            color: cyan;
+            font-size: 32px;
+            font-weight: 700;
+            font-family: "Ubuntu";
+            horizontal-alignment: center;
+        }
+    }
+}

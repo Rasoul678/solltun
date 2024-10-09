@@ -1,0 +1,29 @@
+import {NavWindow} from "./nav-window.slint";
+import {MainWindow} from "./main-window.slint";
+
+export component AppWindow inherits Window {
+    background: black;
+    width: 800px;
+    height: 600px;
+    in-out property <int> counter: 0;
+    in-out property <string> app_name;
+    callback request-increase-value;
+
+    HorizontalLayout {
+        alignment: space-between;
+
+        NavWindow {
+            toggle-curtain => {
+                self.open_curtain = !self.open_curtain;
+            }
+        }
+
+        MainWindow {
+            app_name: root.app_name;
+            counter: root.counter;
+            clicked => {
+                root.request-increase-value();
+            }
+        }
+    }
+}
