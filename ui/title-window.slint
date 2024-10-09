@@ -1,14 +1,32 @@
+import { Button, HorizontalBox } from "std-widgets.slint";
 export component Title inherits Rectangle {
-    preferred-width: 100%;
-    preferred-height: 10px;
     in property <string> app_name;
 
+    callback toggle_curtain;
+
+    preferred-width: 100%;
+    preferred-height: 10px;
+
     HorizontalLayout {
-        alignment: center;
+        alignment: space-between;
+
+        Image {
+            source: @image-url("icons/hamburger.svg");
+            width: 35px;
+            height: 35px;
+
+            TouchArea {
+                mouse-cursor: pointer;
+                clicked => {
+                    root.toggle_curtain();
+                }
+            }
+        }
 
         Text {
             text: "\{root.app_name}";
             color: cyan;
+            width: 100%;
             font-size: 32px;
             font-weight: 700;
             font-family: "Ubuntu";

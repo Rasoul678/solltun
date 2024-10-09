@@ -4,13 +4,25 @@ import { Title } from "title-window.slint";
 export component MainWindow inherits Rectangle {
     in-out property <int> counter;
     in-out property <string> app_name;
+    in-out property <bool> open_curtain;
+
     callback clicked;
-    width: 85%;
-    background: #111;
+    callback toggle-curtain;
+
+    width: open_curtain ? 85% : 100%;
+    background: #060D06;
+    animate width {
+        duration: 250ms;
+        easing: ease-in;
+    }
+
     VerticalBox {
         alignment: start;
         Title {
             app_name: root.app_name;
+            toggle_curtain => {
+                root.toggle_curtain();
+            }
         }
 
         Text {
