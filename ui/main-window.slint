@@ -4,10 +4,12 @@ import { Title } from "title-window.slint";
 export component MainWindow inherits Rectangle {
     in-out property <int> counter;
     in-out property <string> app_name;
+    in-out property <string> db_name;
     in-out property <bool> open_curtain;
 
     callback clicked;
     callback toggle-curtain;
+    callback add-db;
 
     width: open_curtain ? 85% : 100%;
     background: #060D06;
@@ -30,6 +32,11 @@ export component MainWindow inherits Rectangle {
             color: green;
         }
 
+        Text {
+            text: "DB name: \{root.db_name}";
+            color: blueviolet;
+        }
+
         Button {
             width: 200px;
             height: 50px;
@@ -37,6 +44,16 @@ export component MainWindow inherits Rectangle {
             primary: true;
             clicked => {
                 root.clicked();
+            }
+        }
+
+        Button {
+            width: 200px;
+            height: 50px;
+            text: "Add database";
+            primary: true;
+            clicked => {
+                root.add-db();
             }
         }
     }

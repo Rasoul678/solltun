@@ -4,9 +4,11 @@ import {MainWindow} from "./main-window.slint";
 export component AppWindow inherits Window {
     in-out property <int> counter: 0;
     in-out property <string> app_name;
+    in-out property <string> db_name;
     in-out property <bool> open_curtain: true;
 
     callback request-increase-value;
+    callback add-db;
 
     background: black;
     width: 800px;
@@ -22,6 +24,7 @@ export component AppWindow inherits Window {
         MainWindow {
             app_name: root.app_name;
             counter: root.counter;
+            db_name: root.db_name;
             open_curtain: root.open_curtain;
 
             toggle-curtain => {
@@ -30,6 +33,10 @@ export component AppWindow inherits Window {
 
             clicked => {
                 root.request-increase-value();
+            }
+
+            add-db => {
+                root.add-db();
             }
         }
     }
