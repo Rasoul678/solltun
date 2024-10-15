@@ -1,6 +1,8 @@
 import { ScrollView, VerticalBox, Button } from "std-widgets.slint";
-export component NavWindow inherits Rectangle {
+export component NavView inherits Rectangle {
     in-out property <bool> open_curtain;
+
+    callback on-landing;
 
     height: 100%;
     background: #000000;
@@ -8,13 +10,13 @@ export component NavWindow inherits Rectangle {
     opacity: open_curtain ? 1 : 0;
 
     animate opacity {
-        duration: 250ms;
+        duration: 400ms;
         easing: ease-out;
     }
 
     animate width {
-        duration: 250ms;
-        easing: ease-in;
+        duration: 400ms;
+        easing: ease-in-out-back;
     }
 
     ScrollView {
@@ -27,8 +29,15 @@ export component NavWindow inherits Rectangle {
 
             Image {
                 source: @image-url("icons/rocket.svg");
-                width: 100px;
-                height: 100px;
+                width: 80px;
+                height: 80px;
+
+                touch := TouchArea {
+                    mouse-cursor: pointer;
+                    clicked => {
+                        root.on-landing();
+                    }
+                }
             }
 
             Text {

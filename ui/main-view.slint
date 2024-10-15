@@ -1,0 +1,89 @@
+import { VerticalBox, Button, Spinner, TabWidget, LineEdit } from "std-widgets.slint";
+import { Header } from "header-view.slint";
+
+export component MainView inherits Rectangle {
+    in-out property <int> counter;
+    in-out property <string> app_name;
+    in-out property <string> db_name;
+    in-out property <string> db_path;
+    in-out property <bool> open_curtain;
+    in-out property <bool> is-spinning: false;
+    in-out property <string> username: "Rasoul";
+
+    callback increase-value;
+    callback toggle-curtain;
+
+    width: open_curtain ? 85% : 100%;
+    background: #060D06;
+    animate width {
+        duration: 250ms;
+        easing: ease-in;
+    }
+
+    VerticalBox {
+        alignment: start;
+
+        Header {
+            app_name: root.app_name;
+            toggle_curtain => {
+                root.toggle_curtain();
+            }
+        }
+
+        Text {
+            color: white;
+            text: "Username";
+        }
+
+        LineEdit {
+            text <=> root.username;
+            width: 250px;
+            height: 30px;
+            x: 5px;
+            font-size: 1.2rem;
+            input-type: text;
+            accessible-role: text;
+            placeholder-text: "Enter text to be transformed";
+            edited => {
+                root.is-spinning = true;
+            }
+        }
+
+        Spinner {
+            width: 50px;
+            height: 50px;
+            indeterminate: root.is-spinning;
+        }
+
+        Text {
+            text: "Counter: \{root.counter}";
+            color: green;
+        }
+
+        HorizontalLayout {
+            alignment: start;
+            spacing: 10px;
+
+            Text {
+                text: "Database name: \{root.db_name}";
+                font-size: 1rem;
+                color: gold;
+            }
+
+            if (root.db_path != ""): Text {
+                text: "(path: \{root.db_path})";
+                color: crimson;
+            }
+        }
+
+        Button {
+            width: 200px;
+            height: 50px;
+            text: "Increase value";
+            primary: true;
+            clicked => {
+                root.increase-value();
+            }
+        }
+    }
+}

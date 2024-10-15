@@ -1,0 +1,50 @@
+import { HorizontalBox, Button } from "std-widgets.slint";
+export component LaunchView inherits HorizontalLayout {
+    alignment: center;
+    horizontal-stretch: 100%;
+    width: 100%;
+    height: 100%;
+
+    callback on-launch;
+
+    VerticalLayout {
+        alignment: center;
+        width: 100%;
+        height: 100%;
+
+        HorizontalBox {
+            alignment: center;
+            horizontal-stretch: 100%;
+            width: 100%;
+
+            Image {
+                source: @image-url("icons/rocket.svg");
+                width: 300px;
+                height: 300px;
+                touch := TouchArea {
+                    mouse-cursor: pointer;
+                    clicked => {
+                        root.on-launch();
+                    }
+                }
+            }
+        }
+
+        HorizontalBox {
+            alignment: center;
+            horizontal-stretch: 100%;
+            width: 100%;
+
+            btn := Button {
+                text: "Launch Rocket!";
+                width: 150px;
+                height: 40px;
+                horizontal-stretch: 100%;
+                primary: true;
+                clicked => {
+                    touch.clicked();
+                }
+            }
+        }
+    }
+}

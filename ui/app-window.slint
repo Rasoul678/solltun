@@ -1,42 +1,49 @@
-import {NavWindow} from "./nav-window.slint";
-import {MainWindow} from "./main-window.slint";
+import {NavView} from "./nav-view.slint";
+import {MainView} from "./main-view.slint";
+import {LaunchView} from "./launch-view.slint";
+import { Button, HorizontalBox } from "std-widgets.slint";
 
 export component AppWindow inherits Window {
     in-out property <int> counter: 0;
-    in-out property <string> app_name;
-    in-out property <string> db_name;
-    in-out property <bool> open_curtain: true;
+    in-out property <string> app-name;
+    in-out property <string> db-name;
+    in-out property <string> db-path;
+    in-out property <bool> open-curtain: true;
+    in-out property <bool> is-rocket-launched: false;
 
     callback request-increase-value;
-    callback add-db;
+    callback init-db;
 
     background: black;
     width: 800px;
     height: 600px;
 
-    HorizontalLayout {
+    if(!root.is-rocket-launched):LaunchView {
+        on-launch => {
+            root.init-db();
+            root.is-rocket-launched = !root.is-rocket-launched;
+        }
+    }
+
+    if(root.is-rocket-launched):HorizontalLayout {
         alignment: space-between;
 
-        NavWindow {
-            open_curtain: root.open_curtain;
+        nav := NavView {
+            open_curtain: root.open-curtain;
+            on-landing => {
+                root.is-rocket-launched = !root.is-rocket-launched;
+            }
         }
 
-        MainWindow {
-            app_name: root.app_name;
+        main := MainView {
+            app_name: root.app-name;
             counter: root.counter;
-            db_name: root.db_name;
-            open_curtain: root.open_curtain;
+            db_name: root.db-name;
+            db_path: root.db-path;
+            open_curtain: root.open-curtain;
 
             toggle-curtain => {
-                root.open_curtain = !root.open_curtain;
-            }
-
-            clicked => {
-                root.request-increase-value();
-            }
-
-            add-db => {
-                root.add-db();
+                root.open-curtain = !root.open-curtain;
             }
         }
     }
