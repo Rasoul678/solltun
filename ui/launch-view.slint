@@ -1,4 +1,5 @@
 import { HorizontalBox, Button } from "std-widgets.slint";
+import {MyButton} from "custom-button.slint";
 export component LaunchView inherits HorizontalLayout {
     alignment: center;
     horizontal-stretch: 100%;
@@ -35,12 +36,11 @@ export component LaunchView inherits HorizontalLayout {
             horizontal-stretch: 100%;
             width: 100%;
 
-            btn := Button {
+            btn := MyButton {
                 text: "Launch Rocket!";
                 width: 150px;
                 height: 40px;
                 horizontal-stretch: 100%;
-                primary: true;
                 clicked => {
                     touch.clicked();
                 }

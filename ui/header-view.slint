@@ -1,6 +1,8 @@
 import { Button, HorizontalBox } from "std-widgets.slint";
+
 export component Header inherits Rectangle {
     in property <string> app_name;
+    property <bool> hover <=> ta.has-hover;
 
     callback toggle_curtain;
 
@@ -10,17 +12,23 @@ export component Header inherits Rectangle {
     HorizontalLayout {
         alignment: space-between;
 
-        Image {
+        hamburger := Image {
             source: @image-url("icons/hamburger.svg");
             width: 35px;
             height: 35px;
 
-            TouchArea {
+            ta := TouchArea {
                 mouse-cursor: pointer;
                 clicked => {
                     root.toggle_curtain();
                 }
             }
+
+            states [
+                hovered when ta.has-hover: {
+                    source: @image-url("icons/hamburger-gold.svg");
+                }
+            ]
         }
 
         Text {

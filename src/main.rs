@@ -21,21 +21,8 @@ fn run_ui() -> Result<(), slint::PlatformError> {
     // Get a UI weakref for use in the callback
     let ui_handle = ui.as_weak();
 
-    let timer = Timer::default();
-
-    timer.start(
-        TimerMode::SingleShot,
-        std::time::Duration::from_millis(200),
-        move || {
-            println!("This will be printed after 200ms.");
-        },
-    );
-
-    ui.set_app_name("Solltun".into());
-
-    on_request_increase_value(ui_handle.unwrap()).unwrap();
-
     on_init_db(ui_handle.unwrap()).unwrap();
+    on_request_increase_value(ui_handle.unwrap()).unwrap();
 
     ui.run()?;
 
@@ -49,14 +36,25 @@ fn on_init_db(ui: AppWindow) -> Result<(), slint::PlatformError> {
         let ui = ui_handle.unwrap();
         let ui_handle = ui.as_weak();
 
+        let timer = Timer::default();
+        timer.start(
+            TimerMode::SingleShot,
+            std::time::Duration::from_millis(1000),
+            move || {
+                println!("Rocket will be launched after 1000ms.");
+            },
+        );
+
         tokio::runtime::Handle::current().spawn(async move {
             let db_name = "ohmytodos";
             let db: JsonDB<Todo> = JsonDB::new(db_name).await.unwrap();
             let db_path = db.get_db_path().to_string();
 
             ui_handle.upgrade_in_event_loop(move |ui| {
+                ui.set_app_name("SOLLTUN".into());
                 ui.set_db_name(db_name.into());
                 ui.set_db_path(db_path.into());
+                ui.set_is_rocket_launched(!ui.get_is_rocket_launched());
             })
         });
     });

@@ -15,13 +15,12 @@ export component AppWindow inherits Window {
     callback init-db;
 
     background: black;
-    width: 800px;
-    height: 600px;
+    preferred-width: 800px;
+    preferred-height: 600px;
 
     if(!root.is-rocket-launched):LaunchView {
         on-launch => {
             root.init-db();
-            root.is-rocket-launched = !root.is-rocket-launched;
         }
     }
 
@@ -30,6 +29,7 @@ export component AppWindow inherits Window {
 
         nav := NavView {
             open_curtain: root.open-curtain;
+            db_name: root.db-name;
             on-landing => {
                 root.is-rocket-launched = !root.is-rocket-launched;
             }

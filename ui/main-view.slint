@@ -1,4 +1,4 @@
-import { VerticalBox, Button, Spinner, TabWidget, LineEdit } from "std-widgets.slint";
+import { VerticalBox, Button, Spinner, TabWidget, LineEdit, HorizontalBox } from "std-widgets.slint";
 import { Header } from "header-view.slint";
 
 export component MainView inherits Rectangle {
@@ -21,68 +21,79 @@ export component MainView inherits Rectangle {
     }
 
     VerticalBox {
-        alignment: start;
+        alignment: space-between;
 
-        Header {
-            app_name: root.app_name;
-            toggle_curtain => {
-                root.toggle_curtain();
+        VerticalBox {
+            alignment: start;
+            height: 92%;
+
+            Header {
+                app_name: root.app_name;
+                toggle_curtain => {
+                    root.toggle_curtain();
+                }
+            }
+
+            Text {
+                color: white;
+                text: "Username";
+            }
+
+            LineEdit {
+                text <=> root.username;
+                width: 250px;
+                height: 30px;
+                x: 5px;
+                font-size: 1.2rem;
+                input-type: text;
+                accessible-role: text;
+                placeholder-text: "Enter text to be transformed";
+                edited => {
+                    root.is-spinning = true;
+                }
+            }
+
+            Spinner {
+                width: 50px;
+                height: 50px;
+                indeterminate: root.is-spinning;
+            }
+
+            Text {
+                text: "Counter: \{root.counter}";
+                color: green;
+            }
+
+            Button {
+                width: 200px;
+                height: 50px;
+                text: "Increase value";
+                primary: true;
+                clicked => {
+                    root.increase-value();
+                }
             }
         }
 
-        Text {
-            color: white;
-            text: "Username";
-        }
-
-        LineEdit {
-            text <=> root.username;
-            width: 250px;
-            height: 30px;
-            x: 5px;
-            font-size: 1.2rem;
-            input-type: text;
-            accessible-role: text;
-            placeholder-text: "Enter text to be transformed";
-            edited => {
-                root.is-spinning = true;
-            }
-        }
-
-        Spinner {
-            width: 50px;
-            height: 50px;
-            indeterminate: root.is-spinning;
-        }
-
-        Text {
-            text: "Counter: \{root.counter}";
-            color: green;
-        }
-
-        HorizontalLayout {
+        HorizontalBox {
             alignment: start;
             spacing: 10px;
 
             Text {
-                text: "Database name: \{root.db_name}";
-                font-size: 1rem;
+                text: "Database: ";
+                font-size: 1.2rem;
                 color: gold;
             }
 
-            if (root.db_path != ""): Text {
-                text: "(path: \{root.db_path})";
-                color: crimson;
+            Text {
+                text: "\{root.db_name}";
+                font-size: 1.1rem;
+                color: greenyellow;
             }
-        }
 
-        Button {
-            width: 200px;
-            height: 50px;
-            text: "Increase value";
-            primary: true;
-            clicked => {
-                root.increase-value();
+            if (root.db_path != ""): Text {
+                text: "(Path: \{root.db_path})";
+                color: coral;
             }
         }
     }
