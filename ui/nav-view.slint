@@ -1,7 +1,9 @@
 import { ScrollView, VerticalBox, Button } from "std-widgets.slint";
+import { AppConfig } from "./global.slint";
 export component NavView inherits Rectangle {
     in-out property <bool> open_curtain;
     in-out property <string> db_name;
+    in-out property <[string]> tables: [];
 
     callback on-landing;
 
@@ -21,8 +23,13 @@ export component NavView inherits Rectangle {
     }
 
     ScrollView {
+        property <length> height_offset: 2px;
+        property <length> width_offset:  4px;
+        padding: 3px;
         height: parent.height;
         width: parent.width;
+        viewport-height: (AppConfig.tables.length * 72px) + 2px;
+        viewport-width: parent.width;
 
         VerticalBox {
             alignment: start;
@@ -46,6 +53,14 @@ export component NavView inherits Rectangle {
                 color: greenyellow;
                 font-size: 1.3rem;
                 letter-spacing: 3px;
+            }
+
+            for t[i] in root.tables: Text {
+                text: t;
+                color: teal;
+                font-weight: 700;
+                font-size: 1.1rem;
+                letter-spacing: 1px;
             }
         }
     }

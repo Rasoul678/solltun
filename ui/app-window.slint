@@ -10,6 +10,7 @@ export component AppWindow inherits Window {
     in-out property <string> db-path;
     in-out property <bool> open-curtain: true;
     in-out property <bool> is-rocket-launched: false;
+    in-out property <[string]> tables: [];
 
     callback request-increase-value;
     callback init-db;
@@ -30,6 +31,7 @@ export component AppWindow inherits Window {
         nav := NavView {
             open_curtain: root.open-curtain;
             db_name: root.db-name;
+            tables: root.tables;
             on-landing => {
                 root.is-rocket-launched = !root.is-rocket-launched;
             }
