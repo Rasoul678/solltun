@@ -1,7 +1,7 @@
 import { Button, HorizontalBox } from "std-widgets.slint";
+import { AppConfig } from "global.slint";
 
 export component Header inherits Rectangle {
-    in property <string> app_name;
     property <bool> hover <=> ta.has-hover;
 
     callback toggle_curtain;
@@ -32,7 +32,7 @@ export component Header inherits Rectangle {
         }
 
         Text {
-            text: "\{root.app_name}";
+            text: AppConfig.app_name;
             color: cyan;
             width: 100%;
             font-size: 32px;

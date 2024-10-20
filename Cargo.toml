@@ -1,7 +1,9 @@
 [package]
 name = "solltun"
 version = "0.1.0"
+authors = ["Rasoul Hesami Rostami <h.rostami.r@gmail.com>"]
 edition = "2021"
+description = "Rust/Slint desktop to-do application that uses the Slint GUI framework"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -13,3 +15,13 @@ serde = { version = "1.0.180", features = ["derive"] }
 
 [build-dependencies]
 slint-build = "1.7.2"
+
+[lib]
+name = "lib"
+path = "src/lib.rs"
+
+[package.metadata.bundle]
+name = "solltun"
+identifier = "rust-slint-solltun"
+description = "Rust/Slint desktop to-do application that uses the Slint GUI framework"
+icon = ["./ui/icons/rocket.svg"]

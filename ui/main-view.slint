@@ -1,9 +1,9 @@
 import { VerticalBox, Button, Spinner, TabWidget, LineEdit, HorizontalBox } from "std-widgets.slint";
 import { Header } from "header-view.slint";
+import { AppConfig } from "global.slint";
 
 export component MainView inherits Rectangle {
     in-out property <int> counter;
-    in-out property <string> app_name;
     in-out property <string> db_name;
     in-out property <string> db_path;
     in-out property <bool> open_curtain;
@@ -28,7 +28,6 @@ export component MainView inherits Rectangle {
             height: 92%;
 
             Header {
-                app_name: root.app_name;
                 toggle_curtain => {
                     root.toggle_curtain();
                 }
@@ -82,13 +81,13 @@ export component MainView inherits Rectangle {
             Text {
                 text: "Database: ";
                 font-size: 1.2rem;
-                color: gold;
+                color: AppConfig.color_primary;
             }
 
             Text {
                 text: "\{root.db_name}";
                 font-size: 1.1rem;
-                color: greenyellow;
+                color: AppConfig.color_secondary;
             }
 
             if (root.db_path != ""): Text {

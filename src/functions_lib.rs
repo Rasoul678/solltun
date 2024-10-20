@@ -1,14 +1,15 @@
 use std::rc::Rc;
 
-use crate::{AppWindow, Todo};
+use crate::{AppConfig, AppLogic, AppWindow, Todo};
 use ohmydb::JsonDB;
 use slint::{ComponentHandle, Timer, TimerMode};
 
-pub fn on_init_db(ui: AppWindow) -> Result<(), slint::PlatformError> {
+pub fn on_init_db(ui: &AppWindow) {
+    let logic = ui.global::<AppLogic>();
     let ui_handle = ui.as_weak();
 
-    ui.on_init_db(move || {
-        let ui = ui_handle.unwrap();
+    logic.on_init_db(move || {
+        let ui = ui_handle.upgrade().unwrap();
         let ui_handle = ui.as_weak();
 
         let timer = Timer::default();
@@ -20,9 +21,11 @@ pub fn on_init_db(ui: AppWindow) -> Result<(), slint::PlatformError> {
             },
         );
 
+        let cfg = ui.global::<AppConfig>();
+        let db_name = cfg.get_db_name();
+
         tokio::runtime::Handle::current().spawn(async move {
-            let db_name = "ohmytodos";
-            let mut db: JsonDB<Todo> = JsonDB::new(db_name).await.unwrap();
+            let mut db: JsonDB<Todo> = JsonDB::new(&db_name).await.unwrap();
             let db_path = db.get_db_path().to_string();
             db.add_table("users").await.unwrap();
             db.add_table("products").await.unwrap();
@@ -36,7 +39,6 @@ pub fn on_init_db(ui: AppWindow) -> Result<(), slint::PlatformError> {
                         .collect::<Vec<slint::SharedString>>(),
                 ));
 
-                ui.set_app_name("SOLLTUN".into());
                 ui.set_db_name(db_name.into());
                 ui.set_db_path(db_path.into());
                 ui.set_tables(tables_model.into());
@@ -44,10 +46,8 @@ pub fn on_init_db(ui: AppWindow) -> Result<(), slint::PlatformError> {
             })
         });
     });
-
-    Ok(())
 }
-pub fn on_request_increase_value(ui: AppWindow) -> Result<(), slint::PlatformError> {
+pub fn on_request_increase_value(ui: &AppWindow) {
     let ui_handle = ui.as_weak();
 
     ui.on_request_increase_value({
@@ -57,6 +57,4 @@ pub fn on_request_increase_value(ui: AppWindow) -> Result<(), slint::PlatformErr
             ui.set_counter(ui.get_counter() + 1);
         }
     });
-
-    Ok(())
 }

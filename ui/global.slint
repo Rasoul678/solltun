@@ -1,8 +1,12 @@
 export global AppConfig {
-    out property <color> color_primary: grey;
-    out property <color> color_secondary: lightgrey;
-    out property <color> color_tertiary: #75abe6;
-    in property <string> data_path: ".todo.dat";
+    out property <color> color_primary: gold;
+    out property <color> color_secondary: greenyellow;
+    in property <string> app_name: "Solltun";
+    in property <string> db_name: "ohmytodos";
     out property <length> font-size: 14px;
     in property <[string]> tables: [];
+}
+
+export global AppLogic {
+    callback init_db();
 }

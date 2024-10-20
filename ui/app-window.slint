@@ -1,9 +1,14 @@
+import { AppConfig, AppLogic } from "./global.slint";
 import {NavView} from "./nav-view.slint";
 import {MainView} from "./main-view.slint";
 import {LaunchView} from "./launch-view.slint";
 import { Button, HorizontalBox } from "std-widgets.slint";
 
+export { AppConfig, AppLogic}
+
 export component AppWindow inherits Window {
+    title: "Solltun ";
+    icon: @image-url("./icons/rocket.svg");
     in-out property <int> counter: 0;
     in-out property <string> app-name;
     in-out property <string> db-name;
@@ -13,7 +18,6 @@ export component AppWindow inherits Window {
     in-out property <[string]> tables: [];
 
     callback request-increase-value;
-    callback init-db;
 
     background: black;
     preferred-width: 800px;
@@ -21,7 +25,7 @@ export component AppWindow inherits Window {
 
     if(!root.is-rocket-launched):LaunchView {
         on-launch => {
-            root.init-db();
+            AppLogic.init_db();
         }
     }
 
@@ -38,7 +42,6 @@ export component AppWindow inherits Window {
         }
 
         main := MainView {
-            app_name: root.app-name;
             counter: root.counter;
             db_name: root.db-name;
             db_path: root.db-path;
