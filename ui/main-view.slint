@@ -3,17 +3,12 @@ import { Header } from "header-view.slint";
 import { AppConfig } from "global.slint";
 
 export component MainView inherits Rectangle {
-    in-out property <int> counter;
-    in-out property <string> db_name;
-    in-out property <string> db_path;
-    in-out property <bool> open_curtain;
     in-out property <bool> is-spinning: false;
     in-out property <string> username: "Rasoul";
 
     callback increase-value;
-    callback toggle-curtain;
 
-    width: open_curtain ? 85% : 100%;
+    width: AppConfig.is_curtain_open ? 85% : 100%;
     background: #060D06;
     animate width {
         duration: 250ms;
@@ -27,11 +22,7 @@ export component MainView inherits Rectangle {
             alignment: start;
             height: 92%;
 
-            Header {
-                toggle_curtain => {
-                    root.toggle_curtain();
-                }
-            }
+            Header { }
 
             Text {
                 color: white;
@@ -57,21 +48,6 @@ export component MainView inherits Rectangle {
                 height: 50px;
                 indeterminate: root.is-spinning;
             }
-
-            Text {
-                text: "Counter: \{root.counter}";
-                color: green;
-            }
-
-            Button {
-                width: 200px;
-                height: 50px;
-                text: "Increase value";
-                primary: true;
-                clicked => {
-                    root.increase-value();
-                }
-            }
         }
 
         HorizontalBox {
@@ -85,13 +61,13 @@ export component MainView inherits Rectangle {
             }
 
             Text {
-                text: "\{root.db_name}";
+                text: AppConfig.db_name;
                 font-size: 1.1rem;
                 color: AppConfig.color_secondary;
             }
 
-            if (root.db_path != ""): Text {
-                text: "(Path: \{root.db_path})";
+            if (AppConfig.db_path != ""): Text {
+                text: "(Path: \{AppConfig.db_path})";
                 color: coral;
             }
         }

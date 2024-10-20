@@ -20,7 +20,7 @@ export component Header inherits Rectangle {
             ta := TouchArea {
                 mouse-cursor: pointer;
                 clicked => {
-                    root.toggle_curtain();
+                    AppConfig.is_curtain_open = !AppConfig.is_curtain_open;
                 }
             }
 

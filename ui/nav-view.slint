@@ -1,16 +1,10 @@
-import { ScrollView, VerticalBox, Button } from "std-widgets.slint";
+import { ScrollView, VerticalBox, Button, HorizontalBox } from "std-widgets.slint";
 import { AppConfig } from "./global.slint";
 export component NavView inherits Rectangle {
-    in-out property <bool> open_curtain;
-    in-out property <string> db_name;
-    in-out property <[string]> tables: [];
-
-    callback on-landing;
-
     height: 100%;
     background: #000000;
-    width: open_curtain ? 15% : 0%;
-    opacity: open_curtain ? 1 : 0;
+    width: AppConfig.is_curtain_open ? 15% : 0%;
+    opacity: AppConfig.is_curtain_open ? 1 : 0;
 
     animate opacity {
         duration: 500ms;
@@ -28,39 +22,57 @@ export component NavView inherits Rectangle {
         padding: 3px;
         height: parent.height;
         width: parent.width;
-        viewport-height: (AppConfig.tables.length * 72px) + 2px;
+        viewport-height: (AppConfig.tables.length * 100px) + 2px;
         viewport-width: parent.width;
 
         VerticalBox {
             alignment: start;
             spacing: 10px;
 
-            Image {
-                source: @image-url("icons/rocket.svg");
-                width: 100px;
-                height: 100px;
+            HorizontalBox {
+                alignment: center;
+                width: 100%;
 
-                touch := TouchArea {
-                    mouse-cursor: pointer;
-                    clicked => {
-                        root.on-landing();
+                Image {
+                    source: @image-url("icons/rocket.svg");
+                    width: 70px;
+                    height: 70px;
+                    touch := TouchArea {
+                        mouse-cursor: pointer;
+                        clicked => {
+                            AppConfig.is-rocket-launched = !AppConfig.is-rocket-launched;
+                        }
                     }
                 }
             }
 
-            Text {
-                text <=> root.db_name;
-                color: greenyellow;
-                font-size: 1.3rem;
-                letter-spacing: 3px;
+            HorizontalBox {
+                alignment: center;
+                width: 100%;
+
+                Text {
+                    text <=> AppConfig.db_name;
+                    color: greenyellow;
+                    font-size: 1.3rem;
+                    letter-spacing: 1px;
+                }
             }
 
-            for t[i] in root.tables: Text {
+            for t[i] in AppConfig.tables: Text {
                 text: t;
                 color: teal;
                 font-weight: 700;
                 font-size: 1.1rem;
                 letter-spacing: 1px;
+            }
+
+            if (AppConfig.tables.length == 0): Text {
+                text: "No tables found";
+                color: teal;
+                font-weight: 700;
+                font-size: 1.1rem;
+                letter-spacing: 1px;
+                wrap: TextWrap.word-wrap;
             }
         }
     }
