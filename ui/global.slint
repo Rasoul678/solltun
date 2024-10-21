@@ -1,13 +1,15 @@
 export global AppConfig {
     out property <color> color_primary: gold;
     out property <color> color_secondary: greenyellow;
-    out property <length> font-size: 14px;
+    out property <color> color_black: #000;
+    out property <color> color_white: #FFF;
+    out property <length> font-size: 16px;
     in property <string> app_name: "Solltun";
     in property <string> db_name: "ohmytodos";
     in property <string> db_path: "";
     in property <[string]> tables: [];
     in-out property <bool> is_curtain_open: true;
-    in-out property <bool> is_rocket_launched: false;
+    in-out property <bool> is_rocket_launched: true;
 }
 
 export global AppLogic {

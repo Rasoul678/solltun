@@ -1,8 +1,9 @@
 import { ScrollView, VerticalBox, Button, HorizontalBox } from "std-widgets.slint";
 import { AppConfig } from "./global.slint";
+
 export component NavView inherits Rectangle {
     height: 100%;
-    background: #000000;
+    background: AppConfig.color_black;
     width: AppConfig.is_curtain_open ? 15% : 0%;
     opacity: AppConfig.is_curtain_open ? 1 : 0;
 
@@ -18,8 +19,8 @@ export component NavView inherits Rectangle {
 
     ScrollView {
         property <length> height_offset: 2px;
-        property <length> width_offset:  4px;
-        padding: 3px;
+        property <length> width_offset:  2px;
+        padding: 2px;
         height: parent.height;
         width: parent.width;
         viewport-height: (AppConfig.tables.length * 100px) + 2px;
@@ -34,7 +35,7 @@ export component NavView inherits Rectangle {
                 width: 100%;
 
                 Image {
-                    source: @image-url("icons/rocket.svg");
+                    source: @image-url("icons/sonic.svg");
                     width: 70px;
                     height: 70px;
                     touch := TouchArea {
@@ -52,27 +53,41 @@ export component NavView inherits Rectangle {
 
                 Text {
                     text <=> AppConfig.db_name;
-                    color: greenyellow;
-                    font-size: 1.3rem;
+                    color: AppConfig.color_secondary;
+                    font-size: 1.2rem;
                     letter-spacing: 1px;
                 }
             }
 
-            for t[i] in AppConfig.tables: Text {
-                text: t;
-                color: teal;
-                font-weight: 700;
-                font-size: 1.1rem;
-                letter-spacing: 1px;
+            for t[i] in AppConfig.tables: HorizontalBox {
+                width: 100%;
+                spacing: 5px;
+
+                Image {
+                    source: @image-url("icons/db-doc.svg");
+                    width: 30px;
+                    height: 30px;
+                }
+
+                Text {
+                    vertical-alignment: center;
+                    text: t;
+                    color: teal.brighter(70%);
+                    font-weight: 700;
+                    font-size: 1.2rem;
+                    letter-spacing: 1px;
+                    overflow: TextOverflow.elide;
+                }
             }
 
             if (AppConfig.tables.length == 0): Text {
                 text: "No tables found";
-                color: teal;
+                color: crimson.brighter(30%);
                 font-weight: 700;
                 font-size: 1.1rem;
                 letter-spacing: 1px;
-                wrap: TextWrap.word-wrap;
+                overflow: TextOverflow.elide;
+                horizontal-alignment: center;
             }
         }
     }

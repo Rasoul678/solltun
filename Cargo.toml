@@ -9,7 +9,7 @@ description = "Rust/Slint desktop to-do application that uses the Slint GUI fram
 
 [dependencies]
 slint = "1.7.2"
-ohmydb = "1.2.4"
+ohmydb = "1.2.6"
 tokio = { version = "1.40.0", features = ["full"] }
 serde = { version = "1.0.180", features = ["derive"] }
 

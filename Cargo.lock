@@ -2791,9 +2791,9 @@ dependencies = [
 
 [[package]]
 name = "ohmydb"
-version = "1.2.4"
+version = "1.2.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ec29bdb520db522d39ea015f0b83577fcfb62b90cffa832cfebf7500c5bda647"
+checksum = "25d27a69343a5ff415474f84b30c5c1c238eb5af0f905702faeefa00efbb71c6"
 dependencies = [
  "colored",
  "serde",

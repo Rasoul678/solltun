@@ -11,12 +11,12 @@ export component AppWindow inherits Window {
     icon: @image-url("./icons/rocket.svg");
 
     background: black;
-    preferred-width: 800px;
-    preferred-height: 600px;
+    preferred-width: 700px;
+    preferred-height: 500px;
 
     if(!AppConfig.is-rocket-launched):LaunchView {
         on_launch => {
-            AppLogic.init_db();
+            AppConfig.is_rocket_launched = !AppConfig.is_rocket_launched;
         }
     }
 
